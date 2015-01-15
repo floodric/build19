@@ -16,17 +16,24 @@ while(True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     #idk how this works but it finds the eyes
-    eyes = eyeCascade.detectMultiScale(
+    leye = lCascade.detectMultiScale(
       gray,
       scaleFactor=1.1,
       minNeighbors=6,
       minSize=(30, 30),
       flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
-    print eyes
+
+    reye = rCascade.detectMultiScale(
+      gray,
+      scaleFactor=1.1,
+      minNeighbors=6,
+      minSize=(30, 30),
+      flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+    )
 
     # draw boxes over the eyes
-    for (x, y, w, h) in eyes:
+    for (x, y, w, h) in (leye, reye):
       cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame
