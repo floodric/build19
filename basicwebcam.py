@@ -6,8 +6,12 @@ cap = cv2.VideoCapture(0)
 
 printed = 0
 # eye cascade rule (to find eyes)
-lCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_lefteye_2splits.xml')
-rCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_righteye_2splits.xml')
+#lCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_lefteye_2splits.xml')
+#rCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_righteye_2splits.xml')
+
+# another trial
+eyeCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_eye.xml')
+
 
 while(True):
     # Capture frame-by-frame
@@ -17,7 +21,7 @@ while(True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     #idk how this works but it finds the eyes
-    leye = lCascade.detectMultiScale(
+    eye = eyeCascade.detectMultiScale(
       gray,
       scaleFactor=1.1,
       minNeighbors=13,
@@ -25,26 +29,43 @@ while(True):
       flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
 
-    reye = rCascade.detectMultiScale(
-      gray,
-      scaleFactor=1.1,
-      minNeighbors=13,
-      minSize=(30, 30),
-      flags = cv2.cv.CV_HAAR_SCALE_IMAGE
-    )
+    #idk how this works but it finds the eyes
+    #leye = lCascade.detectMultiScale(
+      #gray,
+      #scaleFactor=1.1,
+      #minNeighbors=13,
+      #minSize=(30, 30),
+      #flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+    #)
+
+    #reye = rCascade.detectMultiScale(
+      #gray,
+      #scaleFactor=1.1,
+      #minNeighbors=13,
+      #minSize=(30, 30),
+      #flags = cv2.cv.CV_HAAR_SCALE_IMAGE
+    #)
 
     # try to get the correct eye
     # reye[2] is width
-    if(len(leye) > 0 and len(reye) > 0):
-      av = [((leye[0][0] + (reye[0][0]+reye[0][2]) )/ 2),((leye[0][1] + reye[0][1]+reye[0][3]) / 2)]
+    #if(len(leye) > 0 and len(reye) > 0):
+      #av = [((leye[0][0] + (reye[0][0]+reye[0][2]) )/ 2),((leye[0][1] + reye[0][1]+reye[0][3]) / 2)]
     
-      cv2.circle(gray, (av[0],av[1]), 10, (255,0,0))
+      #cv2.circle(gray, (av[0],av[1]), 10, (255,0,0))
+      
+    if(len(eye[0]) > 0 and len(eye[1]) > 0):
+      ava = [((eye[0][0] + (eye[1][0]+eye[1][2]) )/ 2),((eye[0][1] + eye[1][1]+eye[1][3]) / 2)]
+    
+      cv2.circle(gray, (ava[0],ava[1]), 10, (255,0,0))
 
     # draw boxes over the eyes
-    for (x, y, w, h) in leye:
-      cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
+    #for (x, y, w, h) in leye:
+      #cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-    for (x, y, w, h) in reye:
+    #for (x, y, w, h) in reye:
+      #cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
+      
+    for (x, y, w, h) in eye:
       cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame
