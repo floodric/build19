@@ -19,7 +19,7 @@ while(True):
     leye = lCascade.detectMultiScale(
       gray,
       scaleFactor=1.1,
-      minNeighbors=6,
+      minNeighbors=13,
       minSize=(30, 30),
       flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
@@ -27,13 +27,13 @@ while(True):
     reye = rCascade.detectMultiScale(
       gray,
       scaleFactor=1.1,
-      minNeighbors=6,
+      minNeighbors=7,
       minSize=(30, 30),
       flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
 
     # draw boxes over the eyes
-    for (x, y, w, h) in (leye, reye):
+    for (x, y, w, h) in leye:
       cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame
