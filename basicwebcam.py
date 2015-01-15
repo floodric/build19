@@ -5,7 +5,8 @@ import cv2
 cap = cv2.VideoCapture(0)
 
 # eye cascade rule (to find eyes)
-eyeCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascade_eye.xml')
+lCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_lefteye_2splits.xml')
+rCascade = cv2.CascadeClassifier('/Users/floodric/18/haarcascades/haarcascade_righteye_2splits.xml')
 
 while(True):
     # Capture frame-by-frame
@@ -14,17 +15,20 @@ while(True):
     # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    #idk what this does
+    #idk how this works but it finds the eyes
     eyes = eyeCascade.detectMultiScale(
       gray,
       scaleFactor=1.1,
-      minNeighbors=5,
+      minNeighbors=6,
       minSize=(30, 30),
       flags = cv2.cv.CV_HAAR_SCALE_IMAGE
     )
+    print eyes
 
+    # draw boxes over the eyes
     for (x, y, w, h) in eyes:
       cv2.rectangle(gray, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
     # Display the resulting frame
     cv2.imshow('frame',gray)
     if cv2.waitKey(1) & 0xFF == ord('q'):
